@@ -13,6 +13,7 @@ assert os.path.exists(os.path.dirname(output_path)), "Output path is not valid."
 import torch
 from share import *
 from cldm.model import create_model
+from safetensors.torch import load_file
 
 
 def get_node_name(name, parent_name):
@@ -26,7 +27,12 @@ def get_node_name(name, parent_name):
 
 model = create_model(config_path="./models/cldm_v21v.yaml")
 
-pretrained_weights = torch.load(input_path)
+
+if input_path.endswith(".safetensors"):
+    pretrained_weights = load_file(input_path)
+else:
+    pretrained_weights = torch.load(input_path)
+
 if "state_dict" in pretrained_weights:
     pretrained_weights = pretrained_weights["state_dict"]
 
