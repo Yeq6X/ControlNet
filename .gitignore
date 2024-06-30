@@ -4,7 +4,6 @@ training/
 lightning_logs/
 image_log/
 output_*/
-models/
 venv/
 venv2/
 tb_logs/
