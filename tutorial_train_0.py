@@ -84,7 +84,7 @@ def init(is_debug):
     model.training_step = types.MethodType(training_step, model)
 
 
-    full_dataset = MyDataset('sotai1k')
+    full_dataset = MyDataset('sotai1k', augment=True)
     if is_debug:
         num_samples = 100
         indices = random.sample(range(len(full_dataset)), num_samples)
