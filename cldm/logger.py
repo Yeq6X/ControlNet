@@ -13,7 +13,7 @@ import wandb
 class ImageLogger(Callback):
     def __init__(
         self,
-        save_dir: str,
+        save_dir=str,
         batch_frequency=2000,
         max_images=4,
         clamp=True,
@@ -77,6 +77,14 @@ class ImageLogger(Callback):
             concatenated_images["samples"],
             concatenated_images["reconstruction"],
         ]
+
+        import cv2
+        image_array[0] = cv2.resize(image_array[0], dsize=(image_array[1].shape[1],image_array[1].shape[0]))
+
+        # Image.fromarray(image_array[0]).save('0.jpg')
+        # Image.fromarray(image_array[1]).save('1.jpg')
+        # Image.fromarray(image_array[2]).save('2.jpg')
+        # Image.fromarray(image_array[3]).save('3.jpg')
 
         # to wandb
         concatenated = np.vstack(image_array)

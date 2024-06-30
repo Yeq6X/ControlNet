@@ -84,7 +84,7 @@ def init(is_debug):
     model.training_step = types.MethodType(training_step, model)
 
 
-    full_dataset = MyDataset('sotai_sketch')
+    full_dataset = MyDataset('sotai1k')
     if is_debug:
         num_samples = 100
         indices = random.sample(range(len(full_dataset)), num_samples)
@@ -108,8 +108,8 @@ def init(is_debug):
     interval_checkpoint_callback = ModelCheckpoint(
         every_n_epochs=100,
         monitor=None,
-        dirpath="./output",
-        filename="Sotai_sketch_ControlNet_epoch={epoch:04d}_train_loss_epoch={train/loss_epoch:.4e}",
+        dirpath="./output_1k_1",
+        filename="Sotai_1k_1_ControlNet_epoch={epoch:04d}_train_loss_epoch={train/loss_epoch:.4e}",
         auto_insert_metric_name=False,
         save_top_k=-1,
         save_last=True,
@@ -117,8 +117,8 @@ def init(is_debug):
     )
 
     min_checkpoint_callback = ModelCheckpoint(
-        dirpath="./output",
-        filename="Sotai_sketch_ControlNet_epoch={epoch:04d}_train_loss_epoch={train/loss_epoch:.4e}",
+        dirpath="./output_1k_1",
+        filename="Sotai_1k_1_ControlNet_epoch={epoch:04d}_train_loss_epoch={train/loss_epoch:.4e}",
         auto_insert_metric_name=False,
         save_top_k=5,
         monitor='train/loss_epoch',
@@ -131,7 +131,7 @@ def init(is_debug):
     lr_monitor = LearningRateMonitor(logging_interval='step')
 
     trainer = pl.Trainer(
-        gpus=[1],
+        gpus=[0],
         precision=32,
         logger=[wandb_logger, tb_logger],
         callbacks=[interval_checkpoint_callback, min_checkpoint_callback, image_logger, lr_monitor],
